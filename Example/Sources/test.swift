@@ -31,4 +31,8 @@ struct test {
           }
       }
     }
+
+    func testJSON() {
+        TidyLog.json("{\"address\":{\"streetAddress\": \"Some street\",\"city\": \"Chennai\"},\"phoneNumber\": [{\"location\": \"home\",\"code\": 44}]}")
+    }
 }
