@@ -172,14 +172,16 @@ public class TidyLog {
 
 //Mark:- fileprivate alone
 extension TidyLog {
-  fileprivate func validateRootfile(_ file: String = #file) -> Bool {
+  fileprivate func validateRootfile(_ file: String = #file, function: String = #function, line : Int = #line, terminator: String = "\n") -> Bool {
       let _fromFile = triggeredFrom(fileName: file)
       if _rootfiles.contains(_fromFile) == false {
-          log(message: "Please set log level only from main.swift or AppDelegate.swift")
+          let _msg = buildMessage(Colors.Green.rawValue, timestamp:timestamp(), fileName:_fromFile, lineNumber:line, functionName:function, message:"Please set log level only from main.swift or AppDelegate.swift", mode:"E")
+          log(message: _msg, mode: .error)
           return false
       }
       if _fromFile.characters.count == 0 {
-        log(message: "Unable to set log level. Please set root file")
+        let _msg = buildMessage(Colors.Green.rawValue, timestamp:timestamp(), fileName:_fromFile, lineNumber:line, functionName:function, message:"Unable to set log level. Please set root file", mode:"E")
+        log(message: _msg, mode: .error)
         return false
       }
       return true
