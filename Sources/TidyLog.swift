@@ -56,6 +56,7 @@ public class TidyLog {
 
   private var level : Level = .NONE
   private var rootfile : String = ""
+  fileprivate var tagName  : String = ""
   fileprivate let _rootfiles : [String] = ["main.swift", "AppDelegate.swift"]
 
   public static let _self : TidyLog = TidyLog()
@@ -75,6 +76,12 @@ public class TidyLog {
   public func setLevel(_ _level: Level, file: String = #file) {
       if validateRootfile(file) {
         self.level = _level
+      }
+  }
+
+  public func setTag(_ _name: String, file: String = #file) {
+      if validateRootfile(file) {
+        self.tagName = _name
       }
   }
 
@@ -175,12 +182,12 @@ extension TidyLog {
   fileprivate func validateRootfile(_ file: String = #file, function: String = #function, line : Int = #line, terminator: String = "\n") -> Bool {
       let _fromFile = triggeredFrom(fileName: file)
       if _rootfiles.contains(_fromFile) == false {
-          let _msg = buildMessage(Colors.Green.rawValue, timestamp:timestamp(), fileName:_fromFile, lineNumber:line, functionName:function, message:"Please set log level only from main.swift or AppDelegate.swift", mode:"E")
+          let _msg = buildMessage(Colors.Red.rawValue, timestamp:timestamp(), fileName:_fromFile, lineNumber:line, functionName:function, message:"Please set log level only from main.swift or AppDelegate.swift", mode:"E")
           log(message: _msg, mode: .error)
           return false
       }
       if _fromFile.characters.count == 0 {
-        let _msg = buildMessage(Colors.Green.rawValue, timestamp:timestamp(), fileName:_fromFile, lineNumber:line, functionName:function, message:"Unable to set log level. Please set root file", mode:"E")
+        let _msg = buildMessage(Colors.Red.rawValue, timestamp:timestamp(), fileName:_fromFile, lineNumber:line, functionName:function, message:"Unable to set log level. Please set root file", mode:"E")
         log(message: _msg, mode: .error)
         return false
       }
@@ -215,7 +222,7 @@ extension TidyLog {
       //return "\(color)\(timestamp) TidyLog [\(fileName):\(lineNumber)/\(functionName)] I> \(message)"
       var formatArray = Array<String>()
       formatArray.append(color+timestamp)
-      formatArray.append("TidyLog")
+      formatArray.append(tagName)
       formatArray.append("[\(fileName):\(lineNumber)/\(functionName)]")
       formatArray.append("\(mode)>")
       for _message in message {
