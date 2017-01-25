@@ -4,6 +4,7 @@ import TidyLog
 func initTidyLogging() {
     TidyLog.instance().markAsRootFile()
     TidyLog.instance().setLevel(.VERBOSE)
+    TidyLog.instance().setTag("Example")
 }
 initTidyLogging()
 
