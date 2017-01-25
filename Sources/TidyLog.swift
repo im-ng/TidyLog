@@ -56,7 +56,7 @@ public class TidyLog {
 
   private var level : Level = .NONE
   private var rootfile : String = ""
-  fileprivate var tagName  : String = ""
+  fileprivate var tagName  : String = "TidyLog"
   fileprivate let _rootfiles : [String] = ["main.swift", "AppDelegate.swift"]
 
   public static let _self : TidyLog = TidyLog()
